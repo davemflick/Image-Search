@@ -1,0 +1,35 @@
+{
+  "name": "image-search",
+  "version": "1.0.0",
+  "description": "Image Search Abstraction Layer project for fcc",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davemflick/Image-Search.git"
+  },
+  "author": "David Flick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davemflick/Image-Search/issues"
+  },
+  "homepage": "https://github.com/davemflick/Image-Search#readme",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.6.6",
+    "express": "^4.15.2",
+    "mongodb": "^2.2.26",
+    "mongoose": "^4.9.9",
+    "pug": "^2.0.0-rc.1"
+  },
+  "engines":{
+  "node": "6.10.2",
+  "npm": "3.10.10"
+ }
+}
