@@ -23,14 +23,16 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.3",
     "debug": "^2.6.6",
     "express": "^4.15.2",
     "mongodb": "^2.2.26",
     "mongoose": "^4.9.9",
+    "node-bing-api": "^3.2.1",
     "pug": "^2.0.0-rc.1"
   },
-  "engines":{
-  "node": "6.10.2",
-  "npm": "3.10.10"
- }
+  "engines": {
+    "node": "6.10.2",
+    "npm": "3.10.10"
+  }
 }
