@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors())
 
-var url = 'mongodb://localhost/image_search_fcc';
-mongoose.connect(process.env.IMAGESEARCHDB_URI || url);
+var url = process.env.IMGSEARCHDATABASE ||'mongodb://localhost/image_search_fcc';
+mongoose.connect(url);
 
 
 app.get("/", function(req, res){
@@ -46,12 +46,14 @@ app.get('/api/recentsearches', function(req, res, next){
 	})
 });
 
+//process.env.IMG_SRCH_APIKEY
+//process.env.IMG_SRCH_CX
 
 app.get("/api/imagesearch/:term*", function(req, res, next){
 	var  term = req.params.term;
 	var offset = req.query.offset;
-	var cx =  "000385599969372358254:cvia1fyq29i";
-	var apiKey = "AIzaSyCmyFQivycJ42gMg4nvf1EcI92jMlMbfA4";
+	var cx =  process.env.IMG_SRCH_CX;
+	var apiKey = process.env.IMG_SRCH_APIKEY;
 	if(req.query.offset){
 		url = 'https://www.googleapis.com/customsearch/v1?key=' + apiKey + '&cx=' + cx + '&searchType=image' + '&q=' + term + '&start=' + offset;
 	} else {
