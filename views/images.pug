@@ -1,0 +1,18 @@
+extends layout
+
+block content
+
+	h1.resultsHeader= 'Search Results for ' + term
+	.ui.container.segment
+		a(href="/api/rawdata").goHome.ui.button.green View Raw Data!
+		a(href="/").goHome.ui.button.green Home Page!
+	.ui.container.segment
+		
+		for img in images
+			.photoDiv
+				h4.imgSnip= img.snippet
+				.imgDiv
+					image(src=img.URL).resultPic
+				a(href=img.thumbnail).ui.button.yellow.small.imgBtns Thumbnail
+				a(href="https://" + img.context, target="_blank").ui.button.olive.small.imgBtns Source
+

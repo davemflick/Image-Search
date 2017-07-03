@@ -6,13 +6,15 @@ block content
 		form(action="/", method="POST").ui.form
 			.field
 				label Seach Term
-				input(type="text", name="searchTerm", placeholder="Image Description")
+				input(type="text", name="searchTerm", placeholder="What would you like to look at?")
 			.field
 				label Pagination
 				input(type="number", name="paginate", value="10")
 			button(type="submit").ui.blue.button Search
 
 	.ui.segment.others
+		h3.about About
+		p This app uses Google's Custom Search API to retrieve ten corresponding images along with a link to the JSON object. 
+		p You can set the pagination to play around with different sets of results.
+		p Click the 'Search History' button to find previous searches and dates they occured. 
 		a(href="/api/recentsearches").ui.orange.button Search History
-		h3.about About App
-		p This app uses Google's Custom Search API to retrieve a JSON object containing image urls that best match the keyword used in the search. You can set the pagination to play around with different sets of results. Click the 'Search History' button to find previous searches and dates they occured. 

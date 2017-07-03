@@ -6,13 +6,10 @@ var mongoose = require('mongoose');
 var cors = require("cors");
 var request = require('request');
 
-//GOOGLE CUSTOM API
-  //SEARCH ENGINE ID -> 000385599969372358254:cvia1fyq29i
-  //PUBLIC URL -> https://cse.google.com/cse/publicurl?cx=000385599969372358254:cvia1fyq29i
 
 // Models
 var QueryHistory = require("./models/query");
-
+var rawData;
 
 app.set('view engine', 'pug');
 app.use(express.static("public"));
@@ -48,6 +45,7 @@ app.get('/api/recentsearches', function(req, res, next){
 		}
 	})
 });
+
 
 app.get("/api/imagesearch/:term*", function(req, res, next){
 	var  term = req.params.term;
@@ -92,18 +90,24 @@ app.get("/api/imagesearch/:term*", function(req, res, next){
 					"URL": img.link,
 					"snippet": img.snippet,
 					"thumbnail": img.image.thumbnailLink,
-					"context": img.displayLink
+					"context": img.displayLink,
 				}
 				searchResults.push(image);
 			});
-			res.send(searchResults);
+			rawData = searchResults
+			res.render("images", {images: searchResults, term: term});
 		}
 		
 	});
+});
 
+app.get("/api/rawdata", function(req,res,next){
+	res.send(rawData)
 });
 
 
 app.listen(process.env.PORT || 3000, process.env.IP, ()=>{
 	console.log("Image Search Abstraction Running");
 });
+
+
