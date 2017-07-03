@@ -4,8 +4,11 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var mongoose = require('mongoose');
 var cors = require("cors");
+var request = require('request');
 
-
+//GOOGLE CUSTOM API
+  //SEARCH ENGINE ID -> 000385599969372358254:cvia1fyq29i
+  //PUBLIC URL -> https://cse.google.com/cse/publicurl?cx=000385599969372358254:cvia1fyq29i
 
 // Models
 var QueryHistory = require("./models/query");
@@ -25,48 +28,79 @@ app.get("/", function(req, res){
 	res.render("home")
 });
 
-// app.post("/", function(req, res, next){
-// 	var term = req.body.searchTerm;
-// 	var paginate = req.body.paginate;
-// 	var date = new Date();
-// 	var newSearch = {term: term, date: date};
-// 	QueryHistory.create(newSearch, function(err, search){
-// 		if(err){
-// 			res.render("error", {error: err, message: "Something Went Wrong"});
-// 		} else {
-// 			res.redirect("/api/recentsearches");
-// 		}
-// 	});
-// });
+app.post("/", function(req, res, next){
+	var term = req.body.searchTerm;
+	var paginate = req.body.paginate;
+	if (paginate == 0){
+		paginate = '';
+	}
+	res.redirect("/api/imagesearch/" + term + "?offset=" + paginate);
+});
 
 app.get('/api/recentsearches', function(req, res, next){
 	QueryHistory.find({}, function(err, data){
 		if(err){
 			res.render("error", {error: err, message: "Something Went Wrong"});
 		} else {
-			data.forEach(search=> res.json({term: search.term, date: search.date}))
+			var history = [];
+			data.forEach(search=> history.push({term: search.term, date: search.date}))
+			res.json(history);
 		}
 	})
 });
 
 app.get("/api/imagesearch/:term*", function(req, res, next){
-	var  { term } = req.params;
-	var { offset } = req.query;
+	var  term = req.params.term;
+	var offset = req.query.offset;
+	var cx =  "000385599969372358254:cvia1fyq29i";
+	var apiKey = "AIzaSyCmyFQivycJ42gMg4nvf1EcI92jMlMbfA4";
+	if(req.query.offset){
+		url = 'https://www.googleapis.com/customsearch/v1?key=' + apiKey + '&cx=' + cx + '&searchType=image' + '&q=' + term + '&start=' + offset;
+	} else {
+		url = 'https://www.googleapis.com/customsearch/v1?key=' + apiKey + '&cx=' + cx + '&searchType=image' + '&q=' + term;
+	}
 
-	var data = new QueryHistory({
-		term,
-		date: new Date()
-	});
-	data.save(function(err){
+	var requestObj = {
+		uri: url,
+		method: 'GET',
+		timeout: 8000
+	};
+
+	request(requestObj, function(err, response, body){
 		if(err){
-			res.send('error', {error: err, message: "Something Went Wrong"});
+			throw(err);
+		} else {
+			var newDate = new Date();
+			var date = newDate.toJSON();
+			var searchQuery = {
+				'term': term,
+				'date': date
+			}
+			QueryHistory.create(searchQuery, function(err, search){
+				if(err){
+					res.render("error", {error: err, message: "Something Went Wrong"});
+				} else {
+					console.log("Successfully queired search into QueryHistory")
+				}
+			});
+
+			var searchResults = [];
+			var result = JSON.parse(body);
+			var images = result.items;
+			images.forEach(img=>{
+				var image = {
+					"URL": img.link,
+					"snippet": img.snippet,
+					"thumbnail": img.image.thumbnailLink,
+					"context": img.displayLink
+				}
+				searchResults.push(image);
+			});
+			res.send(searchResults);
 		}
-		res.json(data)
+		
 	});
-	// res.json({
-	// 	term,
-	// 	offset
-	// })
+
 });
 
 

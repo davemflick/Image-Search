@@ -29,7 +29,8 @@
     "mongodb": "^2.2.26",
     "mongoose": "^4.9.9",
     "node-bing-api": "^3.2.1",
-    "pug": "^2.0.0-rc.1"
+    "pug": "^2.0.0-rc.1",
+    "request": "^2.81.0"
   },
   "engines": {
     "node": "6.10.2",
