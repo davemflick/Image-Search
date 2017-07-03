@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	h1.homeHeader Image Search
+	.ui.segment.searchForm
+		form(action="/", method="POST").ui.form
+			.field
+				label Seach Term
+				input(type="text", name="searhTerm", placeholder="Image Description")
+			.field
+				label Pagination
+				input(type="number", name="paginate", placeholder="Paginate")
+			button(type="submit").ui.blue.button Search

@@ -1,8 +1,16 @@
 *{box-sizing: border-box}
 
 body{
-  text-align: center;
   background-color: #ddd;
   width: 100%;
-  margin: 0;
+  margin-top: 20px;
+}
+
+.homeHeader {
+	text-align: center;
+}
+
+.ui.segment.searchForm {
+	width: 70%;
+	margin: 0 auto;
 }
