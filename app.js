@@ -108,7 +108,7 @@ app.get("/api/rawdata", function(req,res,next){
 });
 
 
-app.listen( process.env.PORT || 3000, ()=>{
+app.listen(process.env.PORT || 3000, process.env.IP, ()=>{
 	console.log("Image Search Abstraction Running");
 });
 
